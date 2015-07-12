@@ -6,3 +6,25 @@ body {
 a {
   color: #00B7FF;
 }
+
+span.pregunta {
+  font-style: italic;
+  color: CornflowerBlue;
+}
+
+p.pregunta, p.respuesta_ok, p.respuesta_err {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+p.pregunta {
+  color: DarkBlue;
+}
+
+p.respuesta_ok {
+  color: Green;
+}
+
+p.respuesta_err {
+  color: Red;
+}

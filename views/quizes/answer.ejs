@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h2><%= title %>: el juego de las preguntas</h2>
+
+    <%if (respuesta == true) { %>
+      <p class='respuesta_ok'>CORRECTO</p>
+    <% } else { %>
+      <p class='respuesta_err'>INCORRECTO</p>
+    <% } %>
+    <p><a href='/quizes/question'> Inténtelo otra vez </a></p>
+  </body>
+</html>
