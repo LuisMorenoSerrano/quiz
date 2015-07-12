@@ -3,12 +3,18 @@
 <head>
   <meta charset="utf-8">
   <title><%= title %></title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' type='text/css' href='/stylesheets/style.css' />
+  <link rel='stylesheet' type='text/css'
+        media='only screen and (max-width: 480px)'
+        href='/stylesheets/smartphone.css' />
+  <link rel='stylesheet' type='text/css'
+        media='only screen and (min-width: 800px) and (min-device-width: 481px)'
+        href='/stylesheets/wide.css' />
 </head>
 <body>
   <div id='page-wrap'>
     <header class='main' id='h1'>
-      <h2><%= title %>: el juego de las preguntas</h2>
+      <h2><%= title %><span>: el juego de las preguntas</span></h2>
     </header>
 
     <nav class='main' id='n1' role='navigation'>
@@ -17,7 +23,7 @@
     </nav>
 
     <section class='main' id='s1'>
-      <%- body %>
+      <div><%- body %></div>
     </section>
 
     <footer class='main' id='f1'>

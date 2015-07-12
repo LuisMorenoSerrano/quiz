@@ -1,0 +1,31 @@
+body {
+  background-color: #999;
+}
+
+#page-wrap:after {
+  content: "Wide Layout";
+}
+
+nav {
+  float: left;
+  width: 105px;
+  height: 200px;
+}
+
+nav a {
+  float: left;
+  margin-bottom: 10px;
+}
+
+section {
+  height: 200px;
+}
+
+footer {
+  clear: both;
+  display: block;
+}
+
+footer > a {
+  float: none;
+}

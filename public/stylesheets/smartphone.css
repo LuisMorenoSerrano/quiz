@@ -1,0 +1,33 @@
+body {
+  background-color: #333;
+  min-width: 200px;
+}
+
+#page-wrap:after {
+  content: "Smartphone Layout";
+  font-size: medium;
+}
+
+h2 span, section h3 {
+  display: none;
+}
+
+body {
+  font-size: large;
+}
+
+a {
+  font-size: 80%;
+}
+
+#n1.main, #f1.main {
+  padding: 3%;
+}
+
+#f1.main {
+  padding: 2%;
+}
+
+input {
+  font-size: small;
+}
