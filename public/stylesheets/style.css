@@ -19,6 +19,10 @@ body {
   color: Black;
 }
 
+#f1.main {
+  padding-left: 20px;
+}
+
 section > div {
   padding: 20px;
 }
@@ -85,4 +89,18 @@ p.respuesta_ok {
 
 p.respuesta_err {
   color: Red;
+}
+
+.foto {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  background-image: url(../images/foto.jpg);
+  background-size: 30% 30%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  border-color: LightGray;
 }
