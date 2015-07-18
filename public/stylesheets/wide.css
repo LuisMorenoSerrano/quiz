@@ -16,6 +16,7 @@ nav a {
 
 section {
   height: 200px;
+  margin-left: 125px;
 }
 
 footer {
@@ -37,6 +38,10 @@ footer > a {
 /* Identificadores */
 #page-wrap:after {
   content: "Wide Layout";
+}
+
+#n1.main {
+  padding: 1%;
 }
 
 #f1.main {

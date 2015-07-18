@@ -10,6 +10,9 @@ var routes = require('./routes/index');
 
 var app = express();
 
+// Título del portal
+var sTitulo = 'Quiz';
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -41,6 +44,7 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
+      title: sTitulo,
       message: err.message,
       error: err
     });
@@ -52,10 +56,10 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
+    title: sTitulo,
     message: err.message,
     error: {}
   });
 });
-
 
 module.exports = app;

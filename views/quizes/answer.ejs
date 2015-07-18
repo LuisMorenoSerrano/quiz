@@ -1,6 +1,7 @@
 <% if (respuesta === true) { %>
-  <p class='respuesta_ok'>CORRECTO</p>
+  <p class='respuesta' id='ok'>CORRECTO</p>
 <% } else { %>
-  <p class='respuesta_err'>INCORRECTO</p>
+  <p class='respuesta' id='err'>INCORRECTO</p>
 <% } %>
+<p></p>
 <p><a class='boton' href='/quizes/<%= id %>'> Inténtelo otra vez </a></p>

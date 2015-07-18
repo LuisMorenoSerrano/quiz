@@ -16,6 +16,9 @@ router.get('/author', function(req, res, next) {
   res.render('author.ejs', { title: sTitulo });
 });
 
+// Autoload de comandos con parámetro :quizId
+router.param('quizId', quizController.load);
+
 // GET /quizes/* (Rutas de Quizes)
 router.get('/quizes',                      quizController.index);
 router.get('/quizes/:quizId(\\d+)',        quizController.show);

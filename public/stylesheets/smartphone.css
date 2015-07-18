@@ -1,8 +1,11 @@
 /* Estructura y Secciones */
 body {
-  font-size: large;
   background-color: #333;
   min-width: 200px;
+}
+
+footer > a.boton {
+  font-size: x-small;
 }
 
 /* Cabeceras */
@@ -17,7 +20,7 @@ input {
 
 /* Frases */
 a.boton {
-  font-size: 80%;
+  font-size: 85%;
 }
 
 /* Clases */
@@ -33,10 +36,5 @@ a.boton {
 }
 
 #n1.main, #f1.main {
-  padding: 3%;
-}
-
-#f1.main {
-  padding: 2%;
-  padding-left: 20px;
+  padding: 5px 0px 10px 0px;
 }
