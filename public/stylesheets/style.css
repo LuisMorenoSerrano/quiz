@@ -1,30 +1,12 @@
+/* Universal */
 * {
   margin: 0px;
   padding: 0px;
 }
 
+/* Estructura y Secciones */
 body {
   font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-#page-wrap {
-  margin: 2% auto;
-  color: White;
-}
-
-#page-wrap > .main {
-  border: 1px solid #999;
-  padding: 1.2%;
-  margin-bottom: 1px;
-  color: Black;
-}
-
-#f1.main {
-  padding-left: 20px;
-}
-
-section > div {
-  padding: 20px;
 }
 
 header, nav, section, footer {
@@ -37,37 +19,12 @@ nav {
   font-size: medium;
 }
 
-a {
-  color: #00B7FF;
-  text-decoration: none;
-  width: 90px;
-  margin-right: 10px;
-  padding: 4px;
-  color: LightYellow;
-  background-color: Brown;
-  border-color: LightSalmon;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 3px;
-  box-shadow: 3px 3px 1px #ADADAD;
-}
-
-a:hover {
-  color: White;
-  background-color: LightSlateGray;
-  border-color: LightSlateGray Lime;
-  border-style: solid;
-  border-right-width: 0px;
-  border-left-width: 2px;
+section > div {
+  padding: 20px;
 }
 
 footer > a {
   font-size: x-small;
-}
-
-span.pregunta {
-  font-style: italic;
-  color: CornflowerBlue;
 }
 
 p {
@@ -91,6 +48,68 @@ p.respuesta_err {
   color: Red;
 }
 
+/* Tablas */
+table {
+  margin: 0px auto;
+  border: 2px solid CadetBlue;
+  border-radius: 15px;
+  box-shadow: 6px 6px 3px #888888;
+  padding: 5px;
+  background-color: AliceBlue;
+}
+
+tbody {
+  height: 200px;
+  overflow-y: auto;
+}
+
+th, td {
+  padding: 3px;
+}
+
+th {
+  background-color: CadetBlue;
+}
+
+/* Frases */
+a.boton {
+  color: #00B7FF;
+  text-decoration: none;
+  width: 90px;
+  margin-right: 10px;
+  padding: 4px;
+  color: LightYellow;
+  background-color: Brown;
+  border-color: LightSalmon;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  box-shadow: 3px 3px 1px #ADADAD;
+}
+
+a.boton:hover {
+  color: White;
+  background-color: LightSlateGray;
+  border-color: LightSlateGray Lime;
+  border-style: solid;
+  border-right-width: 0px;
+  border-left-width: 2px;
+}
+
+span.pregunta {
+  font-style: italic;
+  color: CornflowerBlue;
+}
+
+/* Clases */
+.izq {
+  text-align: left;
+}
+
+.cen {
+  text-align: center;
+}
+
 .foto {
   width: 100px;
   height: 100px;
@@ -103,4 +122,21 @@ p.respuesta_err {
   border-width: 3px;
   border-style: solid;
   border-color: LightGray;
+}
+
+/* Identificadores */
+#page-wrap {
+  margin: 2% auto;
+  color: White;
+}
+
+#page-wrap > .main {
+  border: 1px solid #999;
+  padding: 1.2%;
+  margin-bottom: 1px;
+  color: Black;
+}
+
+#f1.main {
+  padding-left: 20px;
 }

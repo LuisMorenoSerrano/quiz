@@ -1,9 +1,6 @@
+/* Estructura y Secciones */
 body {
   background-color: #999;
-}
-
-#page-wrap:after {
-  content: "Wide Layout";
 }
 
 nav {
@@ -21,12 +18,6 @@ section {
   height: 200px;
 }
 
-.foto {
-  display: inline-block;
-  width: 125px;
-  height: 125px;
-}
-
 footer {
   clear: both;
   display: block;
@@ -34,6 +25,18 @@ footer {
 
 footer > a {
   float: none;
+}
+
+/* Clases */
+.foto {
+  display: inline-block;
+  width: 125px;
+  height: 125px;
+}
+
+/* Identificadores */
+#page-wrap:after {
+  content: "Wide Layout";
 }
 
 #f1.main {

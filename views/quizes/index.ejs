@@ -1,0 +1,18 @@
+<h3>Lista de preguntas</h3>
+<p></p>
+<table>
+  <thead>
+    <tr>
+      <th>Núm.</th>
+      <th>Pregunta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (var i = 0; i < quizes.length; i++) { %>
+    <tr>
+      <td class='cen'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].id %></a></td>
+      <td class='izq'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
