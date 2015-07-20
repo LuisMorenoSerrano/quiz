@@ -1,17 +1,25 @@
-<h3>Lista de preguntas</h3>
-<table>
-  <thead>
-    <tr>
-      <th>Núm.</th>
-      <th>Pregunta</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% for (var i = 0; i < quizes.length; i++) { %>
-    <tr>
-      <td class='cen'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].id %></a></td>
-      <td class='izq'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
-    </tr>
-    <% } %>
-  </tbody>
-</table>
+<% if (quizes.length > 0) { %>
+  <h3>Lista de preguntas</h3>
+  <div class='tbody'>
+  <table>
+    <tbody>
+      <% for (var i = 0; i < quizes.length; i++) { %>
+      <tr>
+        <td class='col1'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].id %></a></td>
+        <td class='col2'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+  </div>
+<% } else { %>
+  <p><h4>No hay preguntas con el criterio de búsqueda</h4></p>
+<% } %>
+
+<form id='buscar' method='get' action='/quizes'>
+  <p>
+  Texto de búsqueda:
+    <input type='text' name='search' value='' />
+    <input type='submit' value='Buscar' />
+  </p>
+</form>

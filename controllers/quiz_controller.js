@@ -30,9 +30,20 @@ exports.load = function(req, res, next, quizId) {
   }).catch(function(error) { next(error); });
 };
 
-// GET /quizes
+// GET /quizes(?search=<txt>)?
 exports.index = function(req, res) {
-  models.Quiz.findAll().then(function(quizes) {
+  // Definir filtro de búsqueda -opcional-
+  var sSearch = { order: 'id ASC' };
+
+  if (req.query.search) {
+    sSearch = {
+      where: { pregunta: { like: '%' + req.query.search.trim().replace(/\s{1,}/g, '%') + '%' } },
+      order: 'pregunta ASC'
+    };
+  };
+
+  // Buscar las preguntas -con filtro opcional-
+  models.Quiz.findAll(sSearch).then(function(quizes) {
     res.render('quizes/index.ejs', { title: sTitulo, quizes: quizes });
   }).catch(function(error) { next(error); });
 };
