@@ -1,11 +1,32 @@
 /* Estructura y Secciones */
-body {
-  background-color: #333;
+html {
   min-width: 200px;
 }
 
-footer > a.boton {
-  font-size: x-small;
+body {
+  background-color: #333;
+}
+
+header, #page-wrap > nav {
+  min-height: 30px;
+  max-height: 30px;
+}
+
+header {
+  line-height: 30px;
+}
+
+footer {
+  min-height: 24px;
+  max-height: 24px;
+}
+
+#layout {
+  font-size: small;
+}
+
+#layout:after {
+  content: "Smartphone Layout";
 }
 
 /* Cabeceras */
@@ -18,23 +39,21 @@ input {
   font-size: small;
 }
 
-/* Frases */
+/* Botones */
 a.boton {
   font-size: 85%;
+}
+
+footer > a.boton {
+  font-size: x-small;
+}
+
+a.pie {
+  width: 90px;
 }
 
 /* Clases */
 .foto {
   width: 65px;
   height: 65px;
-}
-
-/* Identificadores */
-#page-wrap:after {
-  content: "Smartphone Layout";
-  font-size: medium;
-}
-
-#n1.main, #f1.main {
-  padding: 5px 0px 10px 0px;
 }
