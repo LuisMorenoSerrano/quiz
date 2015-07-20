@@ -34,10 +34,11 @@ exports.load = function(req, res, next, quizId) {
 exports.index = function(req, res) {
   // Definir filtro de búsqueda -opcional-
   var sSearch = { order: 'id ASC' };
+  var sOper   = (models.DBDialect === 'postgres' ? 'ILIKE' : 'LIKE');
 
   if (req.query.search) {
     sSearch = {
-      where: { pregunta: { like: '%' + req.query.search.trim().replace(/\s{1,}/g, '%') + '%' } },
+      where: [ 'pregunta ' + sOper + ' \'%' + req.query.search.trim().replace(/\s{1,}/g, '%') + '%\'' ],
       order: 'pregunta ASC'
     };
   };

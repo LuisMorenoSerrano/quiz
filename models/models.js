@@ -30,6 +30,7 @@ var sequelize = new Sequelize(dbname, user, pwd, {
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 
 exports.Quiz = Quiz;
+exports.DBDialect = dialect;
 
 // Inicializar la BB.DD.
 sequelize.sync().then(function() {
