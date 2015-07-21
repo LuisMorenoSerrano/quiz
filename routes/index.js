@@ -30,5 +30,7 @@ router.post('/quizes/create',              quizController.create);
 
 router.put('/quizes/:quizId(\\d+)',        quizController.update);
 
+router.delete('/quizes/:quizId(\\d+)',     quizController.destroy);
+
 // Exportar enrutador
 module.exports = router;

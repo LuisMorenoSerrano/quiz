@@ -191,7 +191,7 @@ input[type = text]:focus {
   border-color: #333;
 }
 
-input[type = submit], button[type = button], span.icon {
+input[type = submit], button, .icon {
   padding: 5px 15px;
   background: CornflowerBlue;
   border: 0 none;
@@ -244,19 +244,22 @@ span.error {
   font-size: smaller;
 }
 
-span.icon {
+.icon {
   padding: 1px 12px;
-  background-color: CadetBlue;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
-span.edit {
+.edit {
+  background-color: CadetBlue;
   background-image: url(../images/edit.png);
 }
 
-span.delete {
+.delete {
+  height: 23px;
+  padding: 3px 12px;
+  background-color: Tomato;
   background-image: url(../images/delete.png);
 }
 
@@ -293,7 +296,7 @@ pre {
   text-align: left;
 }
 
-.col3 {
+.col3, .col4 {
   width: 25px;
   text-align: center;
 }
