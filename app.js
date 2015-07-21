@@ -46,7 +46,8 @@ if (app.get('env') === 'development') {
     res.render('error', {
       title: sTitulo,
       message: err.message,
-      error: err
+      error: err,
+      errors: []
     });
   });
 }
@@ -58,7 +59,8 @@ app.use(function(err, req, res, next) {
   res.render('error', {
     title: sTitulo,
     message: err.message,
-    error: {}
+    error: {},
+    errors: []
   });
 });
 

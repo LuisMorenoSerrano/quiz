@@ -8,12 +8,12 @@ var sTitulo = 'Quiz';
 
 // GET / (Página Principal)
 router.get('/', function(req, res, next) {
-  res.render('index.ejs', { title: sTitulo });
+  res.render('index.ejs', { title: sTitulo, errors: [] });
 });
 
 // GET /author (Autor)
 router.get('/author', function(req, res, next) {
-  res.render('author.ejs', { title: sTitulo });
+  res.render('author.ejs', { title: sTitulo, errors: [] });
 });
 
 // Autoload de comandos con parámetro :quizId

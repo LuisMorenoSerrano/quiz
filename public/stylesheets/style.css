@@ -217,9 +217,26 @@ p.respuesta {
   padding: 8px;
 }
 
+p.error_line {
+  padding: 0px;
+  text-align: left;
+  font-style: italic;
+}
+
 span.pregunta {
   font-style: italic;
   color: CornflowerBlue;
+}
+
+span.error {
+  margin: 8px auto;
+  border: 2px solid DarkRed;
+  border-radius: 5px;
+  box-shadow: 3px 3px 2px #888888;
+  padding: 4px;
+  color: FireBrick;
+  background-color: LightPink;
+  font-size: smaller;
 }
 
 pre {
