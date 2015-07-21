@@ -107,6 +107,11 @@ section h3 {
 }
 
 /* Botones */
+a {
+  text-decoration: none;
+  color: DarkBlue;
+}
+
 a.boton {
   color: #00B7FF;
   width: 90px;
@@ -176,7 +181,7 @@ input {
 }
 
 input[type = text] {
-  min-width: 160px;
+  width: 75%;
   padding: 5px;
   border: 2px solid #CCC;
   border-radius: 5px;
@@ -186,7 +191,7 @@ input[type = text]:focus {
   border-color: #333;
 }
 
-input[type = submit], button[type = button] {
+input[type = submit], button[type = button], span.icon {
   padding: 5px 15px;
   background: CornflowerBlue;
   border: 0 none;
@@ -239,6 +244,22 @@ span.error {
   font-size: smaller;
 }
 
+span.icon {
+  padding: 1px 12px;
+  background-color: CadetBlue;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+span.edit {
+  background-image: url(../images/edit.png);
+}
+
+span.delete {
+  background-image: url(../images/delete.png);
+}
+
 pre {
   font-size: 11px;
   font-family: "Consolas", monospace;
@@ -272,12 +293,16 @@ pre {
   text-align: left;
 }
 
+.col3 {
+  width: 25px;
+  text-align: center;
+}
+
 .foto {
   width: 100px;
   height: 100px;
   margin: 10px auto auto auto;
   background-image: url(../images/foto.jpg);
-  background-size: 30% 30%;
   background-repeat: no-repeat;
   background-size: contain;
   border-radius: 50%;

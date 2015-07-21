@@ -39,6 +39,10 @@ input {
   font-size: small;
 }
 
+input[type = text] {
+  width: 90%;
+}
+
 /* Botones */
 a.boton {
   font-size: 85%;

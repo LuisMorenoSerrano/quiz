@@ -5,8 +5,13 @@
       <tbody>
         <% for (var i = 0; i < quizes.length; i++) { %>
         <tr>
-          <td class='col1'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].id %></a></td>
+          <td class='col1'><a class='tabla' href='quizes/<%= quizes[i].id %>'>(<%= quizes[i].id %>)</a></td>
           <td class='col2'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
+          <td class='col3'>
+            <a class='tabla' href='quizes/<%= quizes[i].id %>/edit'>
+              <span class='icon edit' title='Editar la pregunta <%= quizes[i].id %>'></span>
+            </a>
+          </td>
         </tr>
         <% } %>
       </tbody>
