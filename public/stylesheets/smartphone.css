@@ -57,3 +57,7 @@ a.pie {
   width: 65px;
   height: 65px;
 }
+
+.rem {
+  display: none;
+}

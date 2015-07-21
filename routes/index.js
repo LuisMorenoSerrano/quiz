@@ -19,9 +19,13 @@ router.get('/author', function(req, res, next) {
 // Autoload de comandos con parámetro :quizId
 router.param('quizId', quizController.load);
 
-// GET /quizes/* (Rutas de Quizes)
+// Definición de Rutas de /quizes
 router.get('/quizes',                      quizController.index);
 router.get('/quizes/:quizId(\\d+)',        quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
+router.get('/quizes/new',                  quizController.new);
 
+router.post('/quizes/create',              quizController.create);
+
+// Exportar enrutador
 module.exports = router;

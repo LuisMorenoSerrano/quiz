@@ -61,3 +61,22 @@ exports.answer = function(req, res) {
 
   res.render('quizes/answer.ejs', { title: sTitulo, id: req.quiz.id, respuesta: sRespOK.test(sRespUsr) });
 };
+
+// GET /quizes/new
+exports.new = function(req, res) {
+  var quiz = models.Quiz.build(
+    { pregunta: "Escriba la pregunta", respuesta: "Escriba la respuesta" }
+  );
+
+  res.render('quizes/new.ejs', { title: sTitulo, quiz: quiz });
+};
+
+// POST /quizes/create
+exports.create = function(req, res) {
+  var quiz = models.Quiz.build(req.body.quiz);
+
+  // Almacenar par Pregunta-Respuesta en BD y redirección a lista de preguntas
+  quiz.save({ fields: ['pregunta', 'respuesta'] }).then(function() {
+    res.redirect('/quizes');
+  });
+};

@@ -1,19 +1,22 @@
 <% if (quizes.length > 0) { %>
   <h3>Lista de preguntas</h3>
   <div class='tbody'>
-  <table>
-    <tbody>
-      <% for (var i = 0; i < quizes.length; i++) { %>
-      <tr>
-        <td class='col1'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].id %></a></td>
-        <td class='col2'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
-      </tr>
-      <% } %>
-    </tbody>
-  </table>
+    <table>
+      <tbody>
+        <% for (var i = 0; i < quizes.length; i++) { %>
+        <tr>
+          <td class='col1'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].id %></a></td>
+          <td class='col2'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <p>
+      <a href='/quizes/new'><button type='button'>Crear pregunta</button></a>
+    </p>
   </div>
 <% } else { %>
-  <p><h4>No hay preguntas con el criterio de búsqueda</h4></p>
+  <div class='tbody'><h4>No hay preguntas con el criterio de búsqueda</h4></div>
 <% } %>
 
 <form id='buscar' method='get' action='/quizes'>
