@@ -1,4 +1,8 @@
 /* Estructura y Secciones */
+html {
+  font-size: larger;
+}
+
 body {
   background-color: #999;
 }
@@ -21,7 +25,7 @@ body {
 }
 
 #layout:after {
-  content: "Wide Layout";
+  content: 'Wide Layout';
 }
 
 /* Botones */
@@ -33,7 +37,29 @@ footer > a.boton {
   font-size: medium;
 }
 
+/* Formularios */
+label {
+  width: 90px;
+}
+
+input[type = text] {
+  width: 80%;
+}
+
+/* Identificadores */
+#buscar input[type = text] {
+  width: 60%;
+}
+
 /* Clases */
+.col1 {
+  width: 40px;
+}
+
+.col2 {
+  width: 105px;
+}
+
 .foto {
   width: 125px;
   height: 125px;

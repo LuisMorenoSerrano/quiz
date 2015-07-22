@@ -8,7 +8,7 @@
 /* Estructura y Secciones */
 html {
   font-size: 18px;
-  font-family: "Boogaloo", cursive;
+  font-family: 'Boogaloo', cursive;
   letter-spacing: 0.5px;
 }
 
@@ -97,7 +97,7 @@ section > div.tbody {
 }
 
 #layout:after {
-  content: "Normal Layout";
+  content: 'Normal Layout';
 }
 
 /* Cabeceras */
@@ -166,24 +166,26 @@ table {
 }
 
 td {
-  padding: 3px;
+  padding: 1px;
 }
 
 /* Formularios */
 label {
-  display: inline-block;
-  width: 80px;
+  float: left;
+  width: 85px;
+  margin-top: 3px;
   text-align: right;
 }
 
-input {
-  margin-top: 10px;
+input, select {
+  margin: 0px 0px 10px 5px;
 }
 
-input[type = text] {
+input[type = text], select {
+  float: left;
   width: 75%;
   padding: 5px;
-  border: 2px solid #CCC;
+  border: 2px solid Brown;
   border-radius: 5px;
 }
 
@@ -191,12 +193,16 @@ input[type = text]:focus {
   border-color: #333;
 }
 
-input[type = submit], button, .icon {
+input[type = submit], button {
   padding: 5px 15px;
   background: CornflowerBlue;
   border: 0 none;
   cursor: pointer;
   border-radius: 5px;
+}
+
+select {
+  width: auto;
 }
 
 /* Párrafos y Textos */
@@ -244,34 +250,20 @@ span.error {
   font-size: smaller;
 }
 
-.icon {
-  padding: 1px 12px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-}
-
-.edit {
-  background-color: CadetBlue;
-  background-image: url(../images/edit.png);
-}
-
-.delete {
-  height: 23px;
-  padding: 3px 12px;
-  background-color: Tomato;
-  background-image: url(../images/delete.png);
-}
-
 pre {
   font-size: 11px;
-  font-family: "Consolas", monospace;
+  font-family: 'Consolas', monospace;
   overflow: auto;
 }
 
 /* Identificadores */
 #buscar {
   text-align: center;
+}
+
+#buscar input[type = text] {
+  float: none;
+  width: 48%;
 }
 
 #ok.respuesta {
@@ -288,17 +280,26 @@ pre {
 
 /* Clases */
 .col1 {
-  width: 40px;
+  width: 30px;
   text-align: center;
 }
 
 .col2 {
+  width: 95px;
   text-align: left;
 }
 
-.col3, .col4 {
+.col3, .error {
+  text-align: left;
+}
+
+.col4, .col5 {
   width: 25px;
   text-align: center;
+}
+
+.clear {
+  clear: both;
 }
 
 .foto {
@@ -312,4 +313,22 @@ pre {
   border-width: 3px;
   border-style: solid;
   border-color: LightGray;
+}
+
+.icon {
+  height: 24px;
+  padding: 3px 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.edit {
+  background-color: CadetBlue;
+  background-image: url(../images/edit.png);
+}
+
+.delete {
+  background-color: Tomato;
+  background-image: url(../images/delete.png);
 }

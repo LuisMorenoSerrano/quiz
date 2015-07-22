@@ -1,5 +1,6 @@
 /* Estructura y Secciones */
 html {
+  font-size: smaller;
   min-width: 200px;
 }
 
@@ -26,7 +27,7 @@ footer {
 }
 
 #layout:after {
-  content: "Smartphone Layout";
+  content: 'Smartphone Layout';
 }
 
 /* Cabeceras */
@@ -44,19 +45,28 @@ input[type = text] {
 }
 
 /* Botones */
-a.boton {
-  font-size: 85%;
-}
-
 footer > a.boton {
-  font-size: x-small;
+  font-size: smaller;
 }
 
 a.pie {
   width: 90px;
 }
 
+/* Identificadores */
+#buscar input[type = text] {
+  width: 50%;
+}
+
 /* Clases */
+.col1 {
+  width: 25px;
+}
+
+.col2 {
+  width: 70px;
+}
+
 .foto {
   width: 65px;
   height: 65px;

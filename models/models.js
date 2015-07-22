@@ -26,26 +26,49 @@ var sequelize = new Sequelize(dbname, user, pwd, {
   omitNull: true        // Exclusivo de PostgreSQL
 });
 
-// Importar definición tabla Quiz y exportar
-var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
+// Importar definiciones de tablas y crear relaciones
+var Quiz    = sequelize.import(path.join(__dirname, 'quiz'));
+var Subject = sequelize.import(path.join(__dirname, 'subject'));
 
-exports.Quiz = Quiz;
+Subject.hasMany(Quiz, { foreignKey: 'id_tema' });
+Quiz.belongsTo(Subject, { foreignKey: 'id_tema' });
+
+// Exportar elementos del modelo
 exports.DBDialect = dialect;
+exports.Quiz      = Quiz;
+exports.Subject   = Subject;
 
 // Inicializar la BB.DD.
 sequelize.sync().then(function() {
+  // Inicializar tabla Subject -si está vacía-
+  Subject.count().then(function(count) {
+    if (count === 0) {
+      Subject.create({ tema: 'Sin Asignar' });
+      Subject.create({ tema: 'Humanidades' });
+      Subject.create({ tema: 'Ocio' });
+      Subject.create({ tema: 'Ciencia' });
+      Subject.create({ tema: 'Tecnología' });
+      Subject.create({ tema: 'Otros' }).then(function() {
+        console.log('Tabla "Subject" inicializada!');
+      });
+    }
+  });
+
   // Inicializar tabla Quiz -si está vacía-
   Quiz.count().then(function(count) {
     if (count === 0) {
       Quiz.create({
         pregunta:  '¿Cuál es la capital de Italia?',
-        respuesta: 'Roma'
+        respuesta: 'Roma',
+        id_tema:   2
       });
+
       Quiz.create({
         pregunta:  '¿Cuál es la capital de Portugal?',
-        respuesta: 'Lisboa'
+        respuesta: 'Lisboa',
+        id_tema:   2
       }).then(function() {
-        console.log('Base de Datos "Quiz" inicializada');
+        console.log('Tabla "Quiz" inicializada!');
       });
     }
   });

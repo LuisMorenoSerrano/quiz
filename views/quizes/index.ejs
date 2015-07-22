@@ -5,14 +5,16 @@
       <tbody>
         <% for (var i = 0; i < quizes.length; i++) { %>
         <tr>
-          <td class='col1'><a class='tabla' href='quizes/<%= quizes[i].id %>'>(<%= quizes[i].id %>)</a></td>
-          <td class='col2'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
-          <td class='col3'>
+          <td class='col1'>(<%= quizes[i].id %>)</td>
+          <td class='col2'><%= quizes[i].Subject.tema %></td>
+          <td class='col3'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
+          <td class='col4'>
             <a class='tabla' href='/quizes/<%= quizes[i].id %>/edit'>
-              <span class='icon edit' title='Editar la pregunta <%= quizes[i].id %>'></span>
+              <button type='button' class='icon edit' title='Editar la pregunta <%= quizes[i].id %>'>
+              </button>
             </a>
           </td>
-          <td class='col4'>
+          <td class='col5'>
             <form method='post' action='/quizes/<%= quizes[i].id %>/?_method=delete'>
               <button type='submit' class='icon delete' title='Borrar la pregunta <%= quizes[i].id %>'
                 onClick='return confirm("Eliminar pregunta <%= quizes[i].id %>: <%= quizes[i].pregunta %>");'>
