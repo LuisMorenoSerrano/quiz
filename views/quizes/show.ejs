@@ -3,7 +3,7 @@
     [<%= quiz.Subject.tema %>] Pregunta: <span class='pregunta'><%= quiz.pregunta %></span>
   </p>
   <p>
-    <input type='text' name='respuesta' id='respuesta' value='Responda aquí' />
+    <input type='text' name='respuesta' id='respuesta' value='Responda aquí' maxlength='255' />
     <input type='submit' value='Enviar' />
   </p>
 </form>
@@ -12,3 +12,25 @@
     document.getElementById('respuesta').select().focus();
   }
 </script>
+
+<h3>Comentarios</h3>
+<div class='tbody'>
+  <% if (quiz.Comments.length) { %>
+  <table>
+    <tbody>
+      <tr>
+        <td class='col3'>
+          <ul>
+            <% for (var i in quiz.Comments) { %>
+            <li><%= quiz.Comments[i].texto %></li>
+            <% } %>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <% } %>
+  <p>
+    <a href='/quizes/<%= quiz.id %>/comments/new'><button type='button'>Nuevo comentario</button></a>
+  </p>
+</div>

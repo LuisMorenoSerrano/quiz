@@ -26,17 +26,23 @@ var sequelize = new Sequelize(dbname, user, pwd, {
   omitNull: true        // Exclusivo de PostgreSQL
 });
 
-// Importar definiciones de tablas y crear relaciones
+// Importar definiciones de tablas del modelo
 var Quiz    = sequelize.import(path.join(__dirname, 'quiz'));
 var Subject = sequelize.import(path.join(__dirname, 'subject'));
+var Comment = sequelize.import(path.join(__dirname, 'comment'));
 
-Subject.hasMany(Quiz, { foreignKey: 'id_tema' });
+// Definir relaciones entre tablas del modelo
 Quiz.belongsTo(Subject, { foreignKey: 'id_tema' });
+Subject.hasMany(Quiz, { foreignKey: 'id_tema' });
+
+Comment.belongsTo(Quiz, { foreignKey: 'id_quiz', onDelete: 'cascade' });
+Quiz.hasMany(Comment, { foreignKey: 'id_quiz' });
 
 // Exportar elementos del modelo
 exports.DBDialect = dialect;
 exports.Quiz      = Quiz;
 exports.Subject   = Subject;
+exports.Comment   = Comment;
 
 // Inicializar la BB.DD.
 sequelize.sync().then(function() {

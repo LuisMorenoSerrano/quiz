@@ -1,0 +1,15 @@
+<p class='comentario'>Añadir comentario:</p>
+<form method='post' action='/quizes/<%= id_quiz %>/comments'>
+  <label for='comment' class='rem'>Texto:</label>
+  <textarea id='comment' name='comment[texto]' rows='4' maxlength='255'></textarea>
+
+  <p class='clear'>
+    <a href='/quizes/<%= id_quiz %>'><button type='button'>Cancelar</button></a>
+    <input type='submit' value='Guardar' />
+  </p>
+  <script>
+    window.onload = function() {
+      document.getElementById('comment').select().focus();
+    }
+  </script>
+</form>

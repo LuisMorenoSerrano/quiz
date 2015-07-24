@@ -46,6 +46,11 @@ input[type = text] {
   width: 80%;
 }
 
+/* Párrafos y Textos */
+textarea {
+  width: calc(100% - 100px);
+}
+
 /* Identificadores */
 #buscar input[type = text] {
   width: 60%;

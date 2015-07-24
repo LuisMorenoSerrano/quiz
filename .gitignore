@@ -29,5 +29,6 @@ node_modules
 # Debug log from npm
 npm-debug.log
 
-# SQLite DB Files
+# SQLite DB and SQL Files
 *.sqlite
+*.sql

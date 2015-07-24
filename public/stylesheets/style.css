@@ -181,7 +181,7 @@ input, select {
   margin: 0px 0px 10px 5px;
 }
 
-input[type = text], select {
+input[type = 'text'], select {
   float: left;
   width: 75%;
   padding: 5px;
@@ -189,16 +189,20 @@ input[type = text], select {
   border-radius: 5px;
 }
 
-input[type = text]:focus {
-  border-color: #333;
+input[type = 'text']:focus, input[type = 'submit']:focus, textarea:focus, select:focus, button:focus {
+  border: 2px solid Chartreuse;
 }
 
-input[type = submit], button {
+input[type = 'submit'], button {
   padding: 5px 15px;
   background: CornflowerBlue;
-  border: 0 none;
+  border: 2px solid transparent;
   cursor: pointer;
   border-radius: 5px;
+}
+
+input[type = 'submit']:hover, button:hover {
+  border: 2px solid Brown;
 }
 
 select {
@@ -210,7 +214,7 @@ p {
   padding: 5px;
 }
 
-p.pregunta, p.respuesta {
+p.pregunta, p.respuesta, p.comentario {
   font-size: 120%;
   font-weight: bold;
 }
@@ -256,12 +260,21 @@ pre {
   overflow: auto;
 }
 
+ul {
+  padding-left: 20px;
+}
+
+textarea {
+  width: calc(100% - 95px);
+  border: 2px solid Brown;
+}
+
 /* Identificadores */
 #buscar {
   text-align: center;
 }
 
-#buscar input[type = text] {
+#buscar input[type = 'text'] {
   float: none;
   width: 48%;
 }
@@ -317,7 +330,7 @@ pre {
 
 .icon {
   height: 24px;
-  padding: 3px 12px;
+  padding: 1px 10px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -329,6 +342,6 @@ pre {
 }
 
 .delete {
-  background-color: Tomato;
+  background-color: #FF4D4D;
   background-image: url(../images/delete.png);
 }

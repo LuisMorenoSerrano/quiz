@@ -53,6 +53,11 @@ a.pie {
   width: 90px;
 }
 
+/* Párrafos y Textos */
+textarea {
+  width: calc(100% - 15px);
+}
+
 /* Identificadores */
 #buscar input[type = text] {
   width: 50%;
