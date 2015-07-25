@@ -29,7 +29,7 @@ body {
 }
 
 /* Botones */
-a.boton {
+a.boton, button.enlace {
   margin: 5px;
 }
 

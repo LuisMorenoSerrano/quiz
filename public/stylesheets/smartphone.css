@@ -1,7 +1,7 @@
 /* Estructura y Secciones */
 html {
   font-size: smaller;
-  min-width: 200px;
+  min-width: 240px;
 }
 
 body {
@@ -45,12 +45,21 @@ input[type = text] {
 }
 
 /* Botones */
+a.boton {
+  width: 50px;
+}
+
 footer > a.boton {
   font-size: smaller;
 }
 
 a.pie {
   width: 90px;
+}
+
+button.enlace {
+  width: 75px;
+  height: 30px;
 }
 
 /* Párrafos y Textos */

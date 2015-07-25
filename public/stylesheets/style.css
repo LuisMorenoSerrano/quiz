@@ -115,6 +115,9 @@ a {
 a.boton {
   color: #00B7FF;
   width: 90px;
+}
+
+a.boton, button.enlace {
   padding: 4px;
   color: LightYellow;
   background-color: Brown;
@@ -127,7 +130,7 @@ a.boton {
   text-align: center;
 }
 
-a.boton:hover {
+a.boton:hover, button.enlace:hover {
   color: White;
   background-color: LightSlateGray;
   border-color: LightSlateGray Lime;
@@ -142,6 +145,20 @@ a.pie {
   border-color: LightCyan;
   box-shadow: 3px 3px 1px #ADADAD;
   width: 130px;
+}
+
+a.login {
+  background-color: MediumSlateBlue;
+}
+
+button.enlace {
+  width: 100px;
+  height: 35px;
+  font: inherit;
+}
+
+button.logout {
+  background-color: MediumSeaGreen;
 }
 
 /* Tablas */
@@ -181,7 +198,7 @@ input, select {
   margin: 0px 0px 10px 5px;
 }
 
-input[type = 'text'], select {
+input[type = 'text'], input[type = 'password'], select {
   float: left;
   width: 75%;
   padding: 5px;
@@ -189,7 +206,8 @@ input[type = 'text'], select {
   border-radius: 5px;
 }
 
-input[type = 'text']:focus, input[type = 'submit']:focus, textarea:focus, select:focus, button:focus {
+input[type = 'text']:focus, input[type = 'submit']:focus, input[type = 'password']:focus,
+textarea:focus, select:focus, button:focus {
   border: 2px solid Chartreuse;
 }
 
@@ -214,7 +232,7 @@ p {
   padding: 5px;
 }
 
-p.pregunta, p.respuesta, p.comentario {
+p.pregunta, p.respuesta, p.comentario, p.login {
   font-size: 120%;
   font-weight: bold;
 }

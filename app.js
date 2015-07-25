@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials');
 var methodOverride = require('method-override');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 
@@ -28,10 +29,25 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+app.use(cookieParser('My Quiz 2015'));
+app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Gestión de la sesión
+app.use(function(req, res, next) {
+  // Almacenar ruta previa a la acción "login" / "logout" para redirección
+  if (!req.path.match(/\/login/)) {
+    req.session.redir = req.path;
+  }
+
+  // Hacer visible la sesión a las vistas
+  res.locals.session = req.session;
+
+  next();
+});
+
+// Dirigir peticiones a través del enrutador
 app.use('/', routes);
 
 // Capturar Error 404 y redirigir al manejador de errores
