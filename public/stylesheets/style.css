@@ -363,3 +363,8 @@ textarea {
   background-color: #FF4D4D;
   background-image: url(../images/delete.png);
 }
+
+.separador {
+  padding: 0px;
+  height: 15px;
+}

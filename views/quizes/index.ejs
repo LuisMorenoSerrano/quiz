@@ -1,5 +1,5 @@
 <% if (quizes.length) { %>
-  <h3>Lista de preguntas</h3>
+  <h3>Lista de preguntas<% if (search) { %> (filtro: '<%= search %>')<% } %></h3>
   <div class='tbody'>
     <table>
       <tbody>
@@ -8,25 +8,29 @@
           <td class='col1'>(<%= quizes[i].id %>)</td>
           <td class='col2'><%= quizes[i].Subject.tema %></td>
           <td class='col3'><a class='tabla' href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
-          <td class='col4'>
-            <a class='tabla' href='/quizes/<%= quizes[i].id %>/edit'>
-              <button type='button' class='icon edit' title='Editar la pregunta <%= quizes[i].id %>'>
-              </button>
-            </a>
-          </td>
-          <td class='col5'>
-            <form method='post' action='/quizes/<%= quizes[i].id %>?_method=delete'>
-              <button type='submit' class='icon delete' title='Borrar la pregunta <%= quizes[i].id %>'
-                onClick='return confirm("Eliminar pregunta <%= quizes[i].id %>: <%= quizes[i].pregunta %>");'>
-              </button>
-            </form>
-          </td>
+          <% if (session.user) { %>
+            <td class='col4'>
+              <a class='tabla' href='/quizes/<%= quizes[i].id %>/edit'>
+                <button type='button' class='icon edit' title='Editar la pregunta <%= quizes[i].id %>'>
+                </button>
+              </a>
+            </td>
+            <td class='col5'>
+              <form method='post' action='/quizes/<%= quizes[i].id %>?_method=delete'>
+                <button type='submit' class='icon delete' title='Borrar la pregunta <%= quizes[i].id %>'
+                  onClick='return confirm("Eliminar pregunta <%= quizes[i].id %>: <%= quizes[i].pregunta %>");'>
+                </button>
+              </form>
+            </td>
+          <% } %>
         </tr>
         <% } %>
       </tbody>
     </table>
     <p>
-      <a href='/quizes/new'><button type='button'>Crear pregunta</button></a>
+      <% if (session.user) { %>
+        <a href='/quizes/new'><button type='button'>Crear pregunta</button></a>
+      <% } %>
     </p>
   </div>
 <% } else { %>
@@ -36,7 +40,7 @@
 <form id='buscar' method='get' action='/quizes'>
   <p>
   Texto de búsqueda:
-    <input type='text' name='search' value='' maxlength='255' />
+    <input type='text' name='search' value='<%= search %>' maxlength='255' />
     <input type='submit' value='Buscar' />
   </p>
 </form>

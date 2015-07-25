@@ -4,4 +4,13 @@
   <p class='respuesta' id='err'>INCORRECTO</p>
 <% } %>
 <p></p>
-<p><a class='boton' href='/quizes/<%= id %>'> Inténtelo otra vez </a></p>
+<p>
+  <% if (respuesta !== true) { %>
+    <a href='/quizes/<%= id %>'>
+      <button type='button'>Inténtelo otra vez</button>
+    </a>
+  <% } %>
+  <a href='/quizes<% if (search) { %>?search=<%= search %><% } %>'>
+    <button type='button'>Volver a lista</button>
+  </a>
+</p>

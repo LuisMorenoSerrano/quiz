@@ -2,16 +2,14 @@
 var models = require('../models/models.js');
 
 // Definición de parámetros de recuperación de datos
-var sOpLike = (models.DBDialect === 'postgres' ? 'ILIKE' : 'LIKE');
-var sParam1 = {
-  attributes: [ 'id', 'pregunta', 'respuesta', 'id_tema' ],
-  include:    [ { model: models.Subject, attributes: [ 'tema' ] } ]
-};
-var sParam2 = {
-  attributes: [ 'id', 'pregunta', 'respuesta', 'id_tema' ],
-  include:    [ { model: models.Subject, attributes: [ 'tema' ]  },
-                { model: models.Comment, attributes: [ 'texto' ] } ]
-};
+var sSearch     = '',
+    sOpLike     = (models.DBDialect === 'postgres' ? 'ILIKE' : 'LIKE'),
+    aAttributes = [ 'id', 'pregunta', 'respuesta', 'id_tema' ],
+    oIncSubject = { model: models.Subject, attributes: [ 'tema' ]  },
+    oIncComment = { model: models.Comment, attributes: [ 'texto' ] },
+    oParams     = {};
+
+oParams.attributes = aAttributes;
 
 // Función: Convertir texto en expresión regular
 function stringToRegExp(sTxt) {
@@ -42,7 +40,14 @@ exports.preload = function(req, res, next) {
 // Autoload: factorización del código de búsqueda
 // incluyendo control de errores (rutas con :quizId)
 exports.load = function(req, res, next, quizId) {
-  models.Quiz.findById(quizId, sParam2).then(function(quiz) {
+  // Asignar parámetros y buscar pregunta
+  oParams.include = [];
+  oParams.include.push(oIncSubject);
+  oParams.include.push(oIncComment);
+  delete oParams.where;
+  delete oParams.order;
+
+  models.Quiz.findById(quizId, oParams).then(function(quiz) {
     if (quiz) {
       req.quiz = quiz;
       next();
@@ -54,28 +59,35 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizes(?search=<txt>)?
 exports.index = function(req, res, next) {
-  // Definir filtro de búsqueda -opcional-
-  var sSearch = sParam1;
+  // Definir filtro de búsqueda -opcional- y almacenar
+  oParams.include = [];
+  oParams.include.push(oIncSubject);
 
   if (req.query.search) {
-    sSearch.where = [
-      'pregunta ' + sOpLike + ' ?', '%' + req.query.search.trim().replace(/\s{1,}/g, '%') + '%'
+    oParams.where = [
+      'pregunta ' + sOpLike + ' ?', '%' + req.query.search.trim().replace(/\s{2,}/g, ' ') + '%'
     ];
-    sSearch.order = [ [ 'pregunta', 'ASC' ] ];
+    oParams.order = [ [ 'pregunta', 'ASC' ] ];
   } else {
-    sSearch.where = [ ];
-    sSearch.order = [ [ 'id', 'ASC' ] ];
+    delete oParams.where;
+    oParams.order = [ [ 'id', 'ASC' ] ];
   };
 
+  sSearch = req.query.search;
+
   // Buscar las preguntas -con filtro opcional-
-  models.Quiz.findAll(sSearch).then(function(quizes) {
-    res.render('quizes/index.ejs', { quizes: quizes, errors: [] });
+  models.Quiz.findAll(oParams).then(function(quizes) {
+    res.render('quizes/index.ejs', {
+      quizes: quizes, search: sSearch, errors: []
+    });
   }).catch(function(error) { next(error); });
 };
 
 // GET /quizes/:quizId
 exports.show = function(req, res) {
-  res.render('quizes/show.ejs', { quiz: req.quiz, errors: [] });
+  res.render('quizes/show.ejs', {
+    quiz: req.quiz, search: sSearch, errors: []
+  });
 };
 
 // GET /quizes/:quizId/answer
@@ -83,7 +95,9 @@ exports.answer = function(req, res) {
   var sRespOK  = stringToRegExp(req.quiz.respuesta);
   var sRespUsr = req.query.respuesta.trim().replace(/\s{2,}/g, ' ').toLowerCase();
 
-  res.render('quizes/answer.ejs', { id: req.quiz.id, respuesta: sRespOK.test(sRespUsr), errors: [] });
+  res.render('quizes/answer.ejs', {
+    id: req.quiz.id, respuesta: sRespOK.test(sRespUsr), search: sSearch, errors: []
+  });
 };
 
 // GET /quizes/new
@@ -93,7 +107,9 @@ exports.new = function(req, res) {
     { pregunta: 'Escriba la pregunta', respuesta: 'Escriba la respuesta', id_tema: 1 }
   );
 
-  res.render('quizes/new.ejs', { subjects: subjects, quiz: quiz, errors: [] });
+  res.render('quizes/new.ejs', {
+    subjects: subjects, quiz: quiz, search: sSearch, errors: []
+  });
 };
 
 // POST /quizes/create
@@ -106,13 +122,15 @@ exports.create = function(req, res, next) {
     .then(function(err) {
       if (err) {
         // Mostrar mensaje de error si falla la validación
-        res.render('quizes/new.ejs', { subjects: subjects, quiz: quiz, errors: err.errors });
+        res.render('quizes/new.ejs', {
+          subjects: subjects, quiz: quiz, search: sSearch, errors: err.errors
+        });
       } else {
         // Almacenar par Pregunta-Respuesta en BD y redirección a lista de preguntas
         quiz
           .save({ fields: [ 'pregunta', 'respuesta', 'id_tema' ] })
           .then(function() {
-            res.redirect('/quizes');
+            res.redirect('/quizes' + ((sSearch) ? '?search=' + sSearch : ''));
           }
         );
       }
@@ -125,7 +143,9 @@ exports.edit = function(req, res) {
   var subjects = req.subjects  // Asignación por preload
   var quiz     = req.quiz;     // Asignación por autoload
 
-  res.render('quizes/edit.ejs', { subjects: subjects, quiz: quiz, errors: [] });
+  res.render('quizes/edit.ejs', {
+    subjects: subjects, quiz: quiz, search: sSearch, errors: []
+  });
 };
 
 // PUT /quizes/:quizId
@@ -141,13 +161,15 @@ exports.update = function(req, res, next) {
     .then(function(err) {
       if (err) {
         // Mostrar mensaje de error si falla la validación
-        res.render('quizes/edit.ejs', { subjects: subjects, quiz: req.quiz, errors: err.errors });
+        res.render('quizes/edit.ejs', {
+          subjects: subjects, quiz: req.quiz, search: sSearch, errors: err.errors
+        });
       } else {
         // Almacenar par Pregunta-Respuesta en BD y redirección a lista de preguntas
         req.quiz
           .save({ fields: [ 'pregunta', 'respuesta', 'id_tema' ] })
           .then(function() {
-            res.redirect('/quizes');
+            res.redirect('/quizes' + ((sSearch) ? '?search=' + sSearch : ''));
           }
         );
       }
@@ -158,6 +180,6 @@ exports.update = function(req, res, next) {
 // DELETE /quizes/:quizId
 exports.destroy = function(req, res, next) {
   req.quiz.destroy().then(function() {
-    res.redirect('/quizes');
+    res.redirect('/quizes' + ((sSearch) ? '?search=' + sSearch : ''));
   }).catch(function(error) { next(error); });
 };

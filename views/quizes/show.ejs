@@ -6,12 +6,19 @@
     <input type='text' name='respuesta' id='respuesta' value='Responda aquí' maxlength='255' />
     <input type='submit' value='Enviar' />
   </p>
+  <p>
+    <a href='/quizes<% if (search) { %>?search=<%= search %><% } %>'>
+      <button type='button'>Volver a lista</button>
+    </a>
+  </p>
 </form>
 <script>
   window.onload = function() {
     document.getElementById('respuesta').select().focus();
   }
 </script>
+
+<p class='separador'></p>
 
 <h3>Comentarios</h3>
 <div class='tbody'>

@@ -18,7 +18,7 @@ exports.create = function(req, res, next) {
     .then(function(err) {
       if (err) {
         // Mostrar mensaje de error si falla la validación
-        res.render('comments/new.ejs', { comment: comment, errors: err.errors });
+        res.render('comments/new.ejs', { id_quiz: req.params.quizId, comment: comment, errors: err.errors });
       } else {
         // Almacenar comentario asociado a la pregunta en BD y redirección a pregunta
         comment

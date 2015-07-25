@@ -7,21 +7,19 @@
 <label for='tema' class='rem clear'>Temática:</label>
 <select id='tema' name='quiz[id_tema]'>
 <% for (var i = 0; i < subjects.length; i++) { %>
-  <% if (quiz.id_tema === subjects[i].id) { %>
-  <option value='<%= subjects[i].id %>' selected>
-  <% } else { %>
-  <option value='<%= subjects[i].id %>'>
-  <% } %>
-
+  <option value='<%= subjects[i].id %>'<% if (quiz.id_tema === subjects[i].id) { %> selected<% } %>>
     <%= subjects[i].tema %>
   </option>
 <% } %>
 </select>
 
 <p class='clear'>
-  <a href='/quizes'><button type='button'>Cancelar</button></a>
+  <a href='/quizes<% if (search) { %>?search=<%= search %><% } %>'>
+    <button type='button'>Cancelar</button>
+  </a>
   <input type='submit' value='Guardar' />
 </p>
+
 <script>
   window.onload = function() {
     document.getElementById('preg').select().focus();
