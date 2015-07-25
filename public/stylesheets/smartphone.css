@@ -36,11 +36,19 @@ h2 span, section h3 {
 }
 
 /* Formularios */
+label {
+  float: left;
+  width: 100px;
+  margin-left: 5px;
+  margin-bottom: 3px;
+  text-align: left;
+}
+
 input {
   font-size: small;
 }
 
-input[type = text] {
+input[type = text], input[type = 'password'] {
   width: 90%;
 }
 

@@ -22,18 +22,39 @@
 
 <h3>Comentarios</h3>
 <div class='tbody'>
-  <% if (quiz.Comments.length) { %>
+  <% if ( (session.user && quiz.Comments.length)
+    || quiz.Comments.filter(function(value) { return value.publicado }).length) { %>
   <table>
     <tbody>
-      <tr>
-        <td class='col3'>
-          <ul>
-            <% for (var i in quiz.Comments) { %>
-            <li><%= quiz.Comments[i].texto %></li>
-            <% } %>
-          </ul>
-        </td>
-      </tr>
+      <% for (var i in quiz.Comments) { %>
+        <% if (session.user || quiz.Comments[i].publicado) { %>
+        <tr>
+          <td class='col3'>
+            <ul>
+              <li><%= quiz.Comments[i].texto %></li>
+            </ul>
+          </td>
+          <td class='col4'>
+          <% if (session.user && !quiz.Comments[i].publicado) { %>
+            <form method='post'
+                  action='/quizes/<%= quiz.id %>/comments/<%= quiz.Comments[i].id %>/publish?_method=put'>
+              <button type='submit' class='icon comment_accept' title='Publicar el comentario'>
+              </button>
+            </form>
+          <% } %>
+          </td>
+          <td class='col5'>
+          <% if (session.user) { %>
+            <form method='post'
+                  action='/quizes/<%= quiz.id %>/comments/<%= quiz.Comments[i].id %>?_method=delete'>
+              <button type='submit' class='icon comment_refuse' title='Rechazar el comentario'>
+              </button>
+            </form>
+          <% } %>
+          </td>
+        </tr>
+        <% } %>
+      <% } %>
     </tbody>
   </table>
   <% } %>

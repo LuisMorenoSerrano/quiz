@@ -19,6 +19,7 @@ router.get('/author', function(req, res, next) {
 
 // Autoload de comandos con parámetro :quizId
 router.param('quizId', quizController.load);
+router.param('commentId', commentController.load);
 
 //
 // Definición de rutas de sesión (público)
@@ -65,6 +66,16 @@ router.delete('/quizes/:quizId(\\d+)',           sessionController.loginRequired
 // Crear nuevo comentario
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments',    commentController.create);
+
+// Publicar comentario (usuario autenticado)
+router.put('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',
+                                                 sessionController.loginRequired,
+                                                 commentController.publish);
+
+// Rechazar comentario (usuario autenticado)
+router.delete('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)',
+                                                 sessionController.loginRequired,
+                                                 commentController.destroy);
 
 // Exportar enrutador
 module.exports = router;

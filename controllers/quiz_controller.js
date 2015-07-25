@@ -6,7 +6,7 @@ var sSearch     = '',
     sOpLike     = (models.DBDialect === 'postgres' ? 'ILIKE' : 'LIKE'),
     aAttributes = [ 'id', 'pregunta', 'respuesta', 'id_tema' ],
     oIncSubject = { model: models.Subject, attributes: [ 'tema' ]  },
-    oIncComment = { model: models.Comment, attributes: [ 'texto' ] },
+    oIncComment = { model: models.Comment, attributes: [ 'id', 'texto', 'publicado' ] },
     oParams     = {};
 
 oParams.attributes = aAttributes;
@@ -37,8 +37,7 @@ exports.preload = function(req, res, next) {
   }).catch(function(error) { next(error); });
 };
 
-// Autoload: factorización del código de búsqueda
-// incluyendo control de errores (rutas con :quizId)
+// Autoload de Preguntas con control de errores (rutas con :quizId)
 exports.load = function(req, res, next, quizId) {
   // Asignar parámetros y buscar pregunta
   oParams.include = [];

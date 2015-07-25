@@ -364,6 +364,16 @@ textarea {
   background-image: url(../images/delete.png);
 }
 
+.comment_accept {
+  background-color: LawnGreen;
+  background-image: url(../images/comment_accept.png);
+}
+
+.comment_refuse {
+  background-color: #FF4D4D;
+  background-image: url(../images/comment_refuse.png);
+}
+
 .separador {
   padding: 0px;
   height: 15px;
