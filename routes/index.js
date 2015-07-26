@@ -6,6 +6,7 @@ var router = express.Router();
 var quizController    = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
+var statsController   = require('../controllers/stats_controller');
 
 // Página Principal -home page- de acceso (público)
 router.get('/', function(req, res, next) {
@@ -63,7 +64,7 @@ router.put('/quizes/:quizId(\\d+)',              sessionController.loginRequired
 router.delete('/quizes/:quizId(\\d+)',           sessionController.loginRequired,
                                                  quizController.destroy);
 
-// Crear nuevo comentario
+// Crear nuevo comentario (público)
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments',    commentController.create);
 
@@ -76,6 +77,9 @@ router.put('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',
 router.delete('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)',
                                                  sessionController.loginRequired,
                                                  commentController.destroy);
+
+// Estadísticas (público)
+router.get('/quizes/statistics',                 statsController.show);
 
 // Exportar enrutador
 module.exports = router;

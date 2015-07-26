@@ -33,6 +33,14 @@ a.boton, button.enlace {
   margin: 5px;
 }
 
+a.boton {
+  width: 110px;
+}
+
+button.logout {
+  width: 120px;
+}
+
 footer > a.boton {
   font-size: medium;
 }

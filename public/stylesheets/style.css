@@ -113,7 +113,7 @@ a {
 
 a.boton {
   color: #00B7FF;
-  width: 90px;
+  width: 80px;
 }
 
 a.boton, button.enlace {
@@ -143,7 +143,8 @@ a.pie {
   background-color: LightSteelBlue;
   border-color: LightCyan;
   box-shadow: 3px 3px 1px #ADADAD;
-  width: 130px;
+  width: 120px;
+  height: 20px;
 }
 
 a.login {
@@ -319,12 +320,21 @@ textarea {
   text-align: left;
 }
 
-.col3, .error {
+.col3, .col6, .error {
   text-align: left;
 }
 
 .col4, .col5 {
   width: 25px;
+  text-align: center;
+}
+
+.col6, .col7 {
+  border: 1px dotted CadetBlue;
+}
+
+.col7 {
+  width: 80px;
   text-align: center;
 }
 
