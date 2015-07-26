@@ -36,9 +36,33 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Gestión de la sesión
 app.use(function(req, res, next) {
-  // Almacenar ruta previa a la acción "login" / "logout" para redirección
+  var oldTransStart, newTransStart, offsetTrans;
+
+  // Control sobre todas las rutas excepto "/login"
   if (!req.path.match(/\/login/)) {
+    // Almacenar ruta previa a la acción "login" / "logout" para redirección
     req.session.redir = req.path;
+
+    // Control de timeout de sesión activa (usuario autenticado)
+    if (req.session.user) {
+      oldTransStart = (req.session.lastTransStart || Date.now());
+      newTransStart = Date.now();
+      offsetTrans   = (newTransStart - oldTransStart) / 1000.0;  // Segundos
+
+      // Control sesión si han transcurrido más de 2 minutos desde última transacción
+      if (offsetTrans <= 120.0) {
+        // Actualizar timestamp en sesión
+        req.session.lastTransStart = newTransStart;
+      } else {
+        // Destruir sesión si se sobrepasa timeout y redirigir a ruta anterior
+        delete req.session.user;
+        delete req.session.lastTransStart;
+
+        res.redirect(req.session.redir.toString());
+
+        return;
+      }
+    }
   }
 
   // Hacer visible la sesión a las vistas
