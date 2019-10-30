@@ -10,7 +10,7 @@
     "npm": "~2.0.0"
   },
   "devDependencies": {
-    "sqlite3": "^4.0.2"
+    "sqlite3": "^3.30.1"
   },
   "dependencies": {
     "async": "^1.4.0",
