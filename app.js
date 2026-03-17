@@ -1,6 +1,6 @@
 // Importar módulos externos
 var express = require('express');
-var path = require('path');
+var path = require('node:path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -28,14 +28,18 @@ app.use(partials());
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser('My Quiz 2015'));
-app.use(session());
+app.use(session({
+  secret: (process.env.SESSION_SECRET || 'My Quiz 2015'),
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Gestión de la sesión
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   var oldTransStart, newTransStart, offsetTrans;
 
   // Control sobre todas las rutas excepto "/login"
@@ -75,7 +79,7 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 
 // Capturar Error 404 y redirigir al manejador de errores
-app.use(function(req, res, next) {
+app.use((_req, _res, next) => {
   var err = new Error('Not Found');
 
   err.status = 404;
@@ -88,14 +92,14 @@ app.use(function(req, res, next) {
 
 // Manejador de errores (Desarrollo): Mostrar pila de errores completa
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use((err, _req, res, _next) => {
     res.status(err.status || 500);
     res.render('error', { message: err.message, error: err, errors: [] });
   });
 }
 
 // Manejador de errores (Producción): Mostrar sólo mensaje de error
-app.use(function(err, req, res, next) {
+app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   res.render('error', { message: err.message, error: {}, errors: [] });
 });

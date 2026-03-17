@@ -1,5 +1,5 @@
 // Definición del modelo tabla: Comment
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   return sequelize.define('Comment', {
     texto: {
       type: DataTypes.STRING,
@@ -10,4 +10,4 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: false
     }
   });
-}
+};

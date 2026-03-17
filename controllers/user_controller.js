@@ -6,7 +6,7 @@ var users = {
 };
 
 // Comprobar credenciales del usuario
-exports.autenticar = function(login, password, callback) {
+exports.autenticar = (login, password, callback) => {
   if (users[login]) {
     if (password === users[login].password) {
       callback(null, users[login]);

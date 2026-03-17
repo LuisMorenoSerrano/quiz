@@ -1,5 +1,5 @@
 // Definición del modelo tabla: Quiz
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   return sequelize.define('Quiz', {
     pregunta: {
       type: DataTypes.STRING,
@@ -10,4 +10,4 @@ module.exports = function(sequelize, DataTypes) {
       validate: { notEmpty: { msg: '\u21E8 Falta Respuesta' }}
     }
   });
-}
+};

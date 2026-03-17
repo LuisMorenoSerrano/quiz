@@ -7,35 +7,42 @@ var async = require('async');
 //
 
 // Número Total de Preguntas
-var getNumTotQuizzes = function(callback) {
+var getNumTotQuizzes = (callback) => {
   models.Quiz.count()
-    .then(function(c)      { callback(null, c); });
+    .then((c) => { callback(null, c); });
 //    .catch(function(error) { callback(null, 0); });
 };
 
 // Número Total de Comentarios
-var getNumTotComments = function(callback) {
+var getNumTotComments = (callback) => {
   models.Comment.count()
-    .then(function(c)      { callback(null, c); });
+    .then((c) => { callback(null, c); });
 //    .catch(function(error) { callback(null, 0); });
 };
 
 // Número de Preguntas con Comentarios
-var getNumQuizWithComm = function(callback) {
+var getNumQuizWithComm = (callback) => {
   models.Quiz.count({
     distinct: true,
     include: [ { model: models.Comment, required: true } ] })
-  .then(function(c)      { callback(null, c); });
+  .then((c) => { callback(null, c); });
 //  .catch(function(error) { callback(null, 0); });
 };
 
 // Número de Preguntas sin Comentarios
-var getNumQuizWithoutComm = function(callback) {
-  models.Quiz.count({
-    distinct: true,
-    where:    [ '"Comments"."id" IS NULL' ],
-    include:  [ { model: models.Comment, required: false } ] })
-  .then(function(c)      { callback(null, c); });
+var getNumQuizWithoutComm = (callback) => {
+  Promise.all([
+    models.Quiz.count(),
+    models.Quiz.count({
+      distinct: true,
+      include: [ { model: models.Comment, required: true } ]
+    })
+  ]).then((values) => {
+    var total = values[0] || 0;
+    var withComments = values[1] || 0;
+
+    callback(null, Math.max(total - withComments, 0));
+  }).catch((error) => { callback(error); });
 //  .catch(function(error) { callback(null, 0); });
 };
 
@@ -51,20 +58,20 @@ function getNumAvgCommPerQuiz(results, callback) {
 };
 
 // GET /quizes/statistics
-exports.show = function(req, res) {
+exports.show = (_req, res) => {
   // Calcular estadísticas independientes
   async.series({
-    numTotQuizzes:      function(callback) { getNumTotQuizzes(callback);      },
-    numTotComments:     function(callback) { getNumTotComments(callback);     },
-    numQuizWithComm:    function(callback) { getNumQuizWithComm(callback);    },
-    numQuizWithoutComm: function(callback) { getNumQuizWithoutComm(callback); }
+    numTotQuizzes:      (callback) => { getNumTotQuizzes(callback);      },
+    numTotComments:     (callback) => { getNumTotComments(callback);     },
+    numQuizWithComm:    (callback) => { getNumQuizWithComm(callback);    },
+    numQuizWithoutComm: (callback) => { getNumQuizWithoutComm(callback); }
   },
-  function(err, results) {
+  (_err, results) => {
     // Calcular estadísticas dependientes
     async.waterfall([
-      function(callback) { getNumAvgCommPerQuiz(results, callback); }
+      (callback) => { getNumAvgCommPerQuiz(results, callback); }
     ],
-    function(err, results) {
+    (_waterfallErr, results) => {
       // Mostrar estadísticas
       res.render('quizes/stats.ejs', { stats: results, errors: [] });
     });
