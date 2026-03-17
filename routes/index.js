@@ -9,12 +9,12 @@ var sessionController = require('../controllers/session_controller');
 var statsController   = require('../controllers/stats_controller');
 
 // Página Principal -home page- de acceso (público)
-router.get('/', function(req, res, next) {
+router.get('/', (_req, res, _next) => {
   res.render('index.ejs', { errors: [] });
 });
 
 // Página datos del autor (público)
-router.get('/author', function(req, res, next) {
+router.get('/author', (_req, res, _next) => {
   res.render('author.ejs', { errors: [] });
 });
 

@@ -1,9 +1,10 @@
 // Importar módulos externos
 var models = require('../models/models.js');
+var Op = require('sequelize').Op;
 
 // Definición de parámetros de recuperación de datos
 var sSearch     = '',
-    sOpLike     = (models.DBDialect === 'postgres' ? 'ILIKE' : 'LIKE'),
+  sOpLike     = (models.DBDialect === 'postgres' ? Op.iLike : Op.like),
     aAttributes = [ 'id', 'pregunta', 'respuesta', 'id_tema' ],
     oIncSubject = { model: models.Subject, attributes: [ 'tema' ]  },
     oIncComment = { model: models.Comment, attributes: [ 'id', 'texto', 'publicado' ] },
@@ -25,20 +26,20 @@ function stringToRegExp(sTxt) {
 };
 
 // Preload: Carga previa de datos auxiliares
-exports.preload = function(req, res, next) {
+exports.preload = (req, _res, next) => {
   // Carga de datos: Temas
-  models.Subject.findAll().then(function(subjects) {
+  models.Subject.findAll().then((subjects) => {
     if (subjects) {
       req.subjects = subjects;
       next();
     } else {
       next(new Error('No hay datos de Temas (Subjects)'));
     }
-  }).catch(function(error) { next(error); });
+  }).catch((error) => { next(error); });
 };
 
 // Autoload de Preguntas con control de errores (rutas con :quizId)
-exports.load = function(req, res, next, quizId) {
+exports.load = (req, _res, next, quizId) => {
   // Asignar parámetros y buscar pregunta
   oParams.include = [];
   oParams.include.push(oIncSubject);
@@ -46,26 +47,27 @@ exports.load = function(req, res, next, quizId) {
   delete oParams.where;
   delete oParams.order;
 
-  models.Quiz.findById(quizId, oParams).then(function(quiz) {
+  models.Quiz.findByPk(quizId, oParams).then((quiz) => {
     if (quiz) {
       req.quiz = quiz;
       next();
     } else {
-      next(new Error('No existe la pregunta quizId=' + quizId));
+      next(new Error(`No existe la pregunta quizId=${quizId}`));
     }
-  }).catch(function(error) { next(error); });
+  }).catch((error) => { next(error); });
 };
 
 // GET /quizes(?search=<txt>)?
-exports.index = function(req, res, next) {
+exports.index = (req, res, next) => {
   // Definir filtro de búsqueda -opcional- y almacenar
   oParams.include = [];
   oParams.include.push(oIncSubject);
 
   if (req.query.search) {
-    oParams.where = [
-      'pregunta ' + sOpLike + ' ?', '%' + req.query.search.trim().replace(/\s{2,}/g, ' ') + '%'
-    ];
+    oParams.where = {
+      pregunta: {}
+    };
+    oParams.where.pregunta[sOpLike] = `%${req.query.search.trim().replace(/\s{2,}/g, ' ')}%`;
     oParams.order = [ [ 'pregunta', 'ASC' ] ];
   } else {
     delete oParams.where;
@@ -75,22 +77,22 @@ exports.index = function(req, res, next) {
   sSearch = req.query.search;
 
   // Buscar las preguntas -con filtro opcional-
-  models.Quiz.findAll(oParams).then(function(quizes) {
+  models.Quiz.findAll(oParams).then((quizes) => {
     res.render('quizes/index.ejs', {
       quizes: quizes, search: sSearch, errors: []
     });
-  }).catch(function(error) { next(error); });
+  }).catch((error) => { next(error); });
 };
 
 // GET /quizes/:quizId
-exports.show = function(req, res) {
+exports.show = (req, res) => {
   res.render('quizes/show.ejs', {
     quiz: req.quiz, search: sSearch, errors: []
   });
 };
 
 // GET /quizes/:quizId/answer
-exports.answer = function(req, res) {
+exports.answer = (req, res) => {
   var sRespOK  = stringToRegExp(req.quiz.respuesta);
   var sRespUsr = req.query.respuesta.trim().replace(/\s{2,}/g, ' ').toLowerCase();
 
@@ -100,7 +102,7 @@ exports.answer = function(req, res) {
 };
 
 // GET /quizes/new
-exports.new = function(req, res) {
+exports.new = (req, res) => {
   var subjects = req.subjects  // Asignación por preload
   var quiz     = models.Quiz.build(
     { pregunta: 'Escriba la pregunta', respuesta: 'Escriba la respuesta', id_tema: 1 }
@@ -112,33 +114,30 @@ exports.new = function(req, res) {
 };
 
 // POST /quizes/create
-exports.create = function(req, res, next) {
+exports.create = (req, res, next) => {
   var subjects = req.subjects  // Asignación por preload
   var quiz     = models.Quiz.build(req.body.quiz);
 
   quiz
-    .validate()
-    .then(function(err) {
-      if (err) {
+    .save({ fields: [ 'pregunta', 'respuesta', 'id_tema' ] })
+    .then(() => {
+      // Almacenar par Pregunta-Respuesta en BD y redirección a lista de preguntas
+      res.redirect(`/quizes${(sSearch) ? `?search=${sSearch}` : ''}`);
+    })
+    .catch((error) => {
+      if (error.name === 'SequelizeValidationError') {
         // Mostrar mensaje de error si falla la validación
         res.render('quizes/new.ejs', {
-          subjects: subjects, quiz: quiz, search: sSearch, errors: err.errors
+          subjects: subjects, quiz: quiz, search: sSearch, errors: error.errors
         });
       } else {
-        // Almacenar par Pregunta-Respuesta en BD y redirección a lista de preguntas
-        quiz
-          .save({ fields: [ 'pregunta', 'respuesta', 'id_tema' ] })
-          .then(function() {
-            res.redirect('/quizes' + ((sSearch) ? '?search=' + sSearch : ''));
-          }
-        );
+        next(error);
       }
-    }
-  ).catch(function(error) { next(error); });
+    });
 };
 
 // GET /quizes/:quizId/edit
-exports.edit = function(req, res) {
+exports.edit = (req, res) => {
   var subjects = req.subjects  // Asignación por preload
   var quiz     = req.quiz;     // Asignación por autoload
 
@@ -148,7 +147,7 @@ exports.edit = function(req, res) {
 };
 
 // PUT /quizes/:quizId
-exports.update = function(req, res, next) {
+exports.update = (req, res, next) => {
   var subjects = req.subjects  // Asignación por preload
 
   req.quiz.pregunta  = req.body.quiz.pregunta;
@@ -156,29 +155,26 @@ exports.update = function(req, res, next) {
   req.quiz.id_tema   = req.body.quiz.id_tema;
 
   req.quiz
-    .validate()
-    .then(function(err) {
-      if (err) {
+    .save({ fields: [ 'pregunta', 'respuesta', 'id_tema' ] })
+    .then(() => {
+      // Almacenar par Pregunta-Respuesta en BD y redirección a lista de preguntas
+      res.redirect(`/quizes${(sSearch) ? `?search=${sSearch}` : ''}`);
+    })
+    .catch((error) => {
+      if (error.name === 'SequelizeValidationError') {
         // Mostrar mensaje de error si falla la validación
         res.render('quizes/edit.ejs', {
-          subjects: subjects, quiz: req.quiz, search: sSearch, errors: err.errors
+          subjects: subjects, quiz: req.quiz, search: sSearch, errors: error.errors
         });
       } else {
-        // Almacenar par Pregunta-Respuesta en BD y redirección a lista de preguntas
-        req.quiz
-          .save({ fields: [ 'pregunta', 'respuesta', 'id_tema' ] })
-          .then(function() {
-            res.redirect('/quizes' + ((sSearch) ? '?search=' + sSearch : ''));
-          }
-        );
+        next(error);
       }
-    }
-  ).catch(function(error) { next(error); });
+    });
 };
 
 // DELETE /quizes/:quizId
-exports.destroy = function(req, res, next) {
-  req.quiz.destroy().then(function() {
-    res.redirect('/quizes' + ((sSearch) ? '?search=' + sSearch : ''));
-  }).catch(function(error) { next(error); });
+exports.destroy = (req, res, next) => {
+  req.quiz.destroy().then(() => {
+    res.redirect(`/quizes${(sSearch) ? `?search=${sSearch}` : ''}`);
+  }).catch((error) => { next(error); });
 };
