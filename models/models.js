@@ -35,10 +35,12 @@ if (/^sqlite:/i.test(databaseUrl)) {
 var QuizModel    = require(path.join(__dirname, 'quiz'));
 var SubjectModel = require(path.join(__dirname, 'subject'));
 var CommentModel = require(path.join(__dirname, 'comment'));
+var UserModel    = require(path.join(__dirname, 'user'));
 
 var Quiz    = QuizModel(sequelize, Sequelize.DataTypes);
 var Subject = SubjectModel(sequelize, Sequelize.DataTypes);
 var Comment = CommentModel(sequelize, Sequelize.DataTypes);
+var User    = UserModel(sequelize, Sequelize.DataTypes);
 
 // Definir relaciones entre tablas del modelo
 Quiz.belongsTo(Subject, { foreignKey: 'id_tema' });
@@ -52,6 +54,7 @@ exports.DBDialect = dialect;
 exports.Quiz      = Quiz;
 exports.Subject   = Subject;
 exports.Comment   = Comment;
+exports.User      = User;
 
 // Inicializar la BB.DD.
 sequelize.sync().then(() => {
@@ -86,5 +89,32 @@ sequelize.sync().then(() => {
         console.log('Tabla "Quiz" inicializada!');
       });
     }
+  });
+
+  // Initialize User table with demo users when it is empty.
+  User.count().then((count) => {
+    if (count === 0) {
+      return Promise.all([
+        User.create({
+          username: 'admin',
+          salt: 'a1b2c3d4e5f60718293a4b5c6d7e8f90',
+          passwordHash: '881feecad21371989a4e9385a5f4d1bd851f9a05fe562b738b9e2b59b6b85862caec7da7a664d691eeeb461968a7abf3cbce60d1bf0c1fe75cff7114a00d46a1'
+        }),
+        User.create({
+          username: 'pepe',
+          salt: '0f9e8d7c6b5a49382716151413121110',
+          passwordHash: '1979471aac79bc37192cf2475d2d245586d8d8fbb73527276d14047e05500a0b27cb1a0280a549179dec85addee91724c913fc6e828a5434376ca530db0d364b'
+        }),
+        User.create({
+          username: 'luis',
+          salt: '11223344556677889900aabbccddeeff',
+          passwordHash: '567f65c242041135b67976b7cfff9b97491fd876cf2df20f5d06a6f31e3ee2e2a56455e0a1d5ff1884e616c6e13899959cf5e5ef4528765eee925942ccf8fd68'
+        })
+      ]).then(() => {
+        console.log('Tabla "User" inicializada!');
+      });
+    }
+
+    return null;
   });
 });

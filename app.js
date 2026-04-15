@@ -1,6 +1,7 @@
 // Importar módulos externos
 var express = require('express');
 var path = require('node:path');
+var crypto = require('node:crypto');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -13,6 +14,13 @@ var routes = require('./routes/index');
 
 // Definir aplicación
 var app = express();
+var isProduction = (process.env.NODE_ENV === 'production');
+var sessionSecret = process.env.SESSION_SECRET;
+
+if (!sessionSecret) {
+  sessionSecret = crypto.randomBytes(32).toString('hex');
+  console.warn('SESSION_SECRET no definido. Usando uno temporal para esta ejecución.');
+}
 
 // Definir propiedades globales de la aplicación
 app.locals.title  = 'My Quiz';
@@ -31,11 +39,50 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser('My Quiz 2015'));
 app.use(session({
-  secret: (process.env.SESSION_SECRET || 'My Quiz 2015'),
+  secret: sessionSecret,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: isProduction,
+    maxAge: 30 * 60 * 1000
+  }
 }));
+
+// Token CSRF simple almacenado en sesión para proteger peticiones de escritura.
+app.use((req, res, next) => {
+  if (!req.session.csrfToken) {
+    req.session.csrfToken = crypto.randomBytes(24).toString('hex');
+  }
+
+  res.locals.csrfToken = req.session.csrfToken;
+  next();
+});
+
 app.use(methodOverride('_method'));
+
+app.use((req, _res, next) => {
+  var isUnsafeMethod = ![ 'GET', 'HEAD', 'OPTIONS' ].includes(req.method);
+  var csrfToken = null;
+
+  if (!isUnsafeMethod) {
+    next();
+    return;
+  }
+
+  csrfToken = (req.body && req.body._csrf)
+    || (req.query && req.query._csrf)
+    || req.get('x-csrf-token');
+
+  if (req.session && csrfToken && csrfToken === req.session.csrfToken) {
+    next();
+    return;
+  }
+
+  next(Object.assign(new Error('Invalid CSRF token'), { status: 403 }));
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Gestión de la sesión

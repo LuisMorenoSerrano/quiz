@@ -1,5 +1,7 @@
 <p class='comentario'>Añadir comentario:</p>
 <form method='post' action='/quizes/<%= id_quiz %>/comments'>
+  <input type='hidden' name='_csrf' value='<%= csrfToken %>' />
+
   <label for='comment' class='rem'>Texto:</label>
   <textarea id='comment' name='comment[texto]' rows='4' maxlength='255'></textarea>
 

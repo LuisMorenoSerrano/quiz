@@ -27,6 +27,7 @@
         <a class='boton login' href='/login'>Login</a>
       <% } else { %>
         <form method='post' action='/login?_method=delete'>
+          <input type='hidden' name='_csrf' value='<%= csrfToken %>' />
           <button type='submit' class='enlace logout'>Logout <%= session.user.username %></button>
         </form>
       <% } %>

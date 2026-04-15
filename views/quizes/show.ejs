@@ -38,6 +38,7 @@
           <% if (session.user && !quiz.Comments[i].publicado) { %>
             <form method='post'
                   action='/quizes/<%= quiz.id %>/comments/<%= quiz.Comments[i].id %>/publish?_method=put'>
+              <input type='hidden' name='_csrf' value='<%= csrfToken %>' />
               <button type='submit' class='icon comment_accept' title='Publicar el comentario'>
               </button>
             </form>
@@ -47,6 +48,7 @@
           <% if (session.user) { %>
             <form method='post'
                   action='/quizes/<%= quiz.id %>/comments/<%= quiz.Comments[i].id %>?_method=delete'>
+              <input type='hidden' name='_csrf' value='<%= csrfToken %>' />
               <button type='submit' class='icon comment_refuse' title='Rechazar el comentario'>
               </button>
             </form>
