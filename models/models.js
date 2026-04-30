@@ -1,6 +1,6 @@
 // Importar módulos externos
 var path = require('node:path');
-var Sequelize = require('sequelize');
+var { Sequelize, DataTypes } = require('sequelize');
 
 // Definir parámetros de conexión con un fallback local para SQLite.
 //
@@ -37,10 +37,10 @@ var SubjectModel = require(path.join(__dirname, 'subject'));
 var CommentModel = require(path.join(__dirname, 'comment'));
 var UserModel    = require(path.join(__dirname, 'user'));
 
-var Quiz    = QuizModel(sequelize, Sequelize.DataTypes);
-var Subject = SubjectModel(sequelize, Sequelize.DataTypes);
-var Comment = CommentModel(sequelize, Sequelize.DataTypes);
-var User    = UserModel(sequelize, Sequelize.DataTypes);
+var Quiz    = QuizModel(sequelize, DataTypes);
+var Subject = SubjectModel(sequelize, DataTypes);
+var Comment = CommentModel(sequelize, DataTypes);
+var User    = UserModel(sequelize, DataTypes);
 
 // Definir relaciones entre tablas del modelo
 Quiz.belongsTo(Subject, { foreignKey: 'id_tema' });

@@ -5,8 +5,7 @@ var crypto = require('node:crypto');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var partials = require('express-partials');
+var engine = require('ejs-mate');
 var methodOverride = require('method-override');
 var session = require('express-session');
 
@@ -29,14 +28,14 @@ app.locals.author = 'Luis Moreno';
 // Configurar motor de vistas
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.engine('ejs', engine);
 
 // Asociar middlewares a la aplicación
-app.use(partials());
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser('My Quiz 2015'));
 app.use(session({
   secret: sessionSecret,

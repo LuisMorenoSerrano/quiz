@@ -1,13 +1,22 @@
-// Definición del modelo tabla: Quiz
+const { Model } = require('sequelize');
+
+class Quiz extends Model {}
+
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Quiz', {
+  Quiz.init({
     pregunta: {
       type: DataTypes.STRING,
-      validate: { notEmpty: { msg: '\u21E8 Falta Pregunta' }}
+      validate: { notEmpty: { msg: '\u21E8 Falta Pregunta' } }
     },
     respuesta: {
       type: DataTypes.STRING,
-      validate: { notEmpty: { msg: '\u21E8 Falta Respuesta' }}
+      validate: { notEmpty: { msg: '\u21E8 Falta Respuesta' } }
     }
+  }, {
+    sequelize,
+    modelName: 'Quiz',
+    tableName: 'Quizzes'
   });
+
+  return Quiz;
 };

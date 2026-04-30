@@ -1,6 +1,9 @@
-// User table model definition
+const { Model } = require('sequelize');
+
+class User extends Model {}
+
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('User', {
+  User.init({
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -23,5 +26,11 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: '\u21E8 Missing Password Hash' }
       }
     }
+  }, {
+    sequelize,
+    modelName: 'User',
+    tableName: 'Users'
   });
+
+  return User;
 };

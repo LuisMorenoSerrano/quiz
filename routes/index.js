@@ -36,13 +36,7 @@ router.delete('/login', sessionController.destroy);
 // Mostrar lista de preguntas (público)
 router.get('/quizes',                            quizController.index);
 
-// Mostrar pregunta y solicitar respuesta (público)
-router.get('/quizes/:quizId(\\d+)',              quizController.show);
-
-// Validar respuesta y mostrar resultado (público)
-router.get('/quizes/:quizId(\\d+)/answer',       quizController.answer);
-
-// Crear nueva pregunta (usuario autenticado)
+// Crear nueva pregunta (usuario autenticado) — debe ir ANTES de /:quizId
 router.get('/quizes/new',                        sessionController.loginRequired,
                                                  quizController.preload,
                                                  quizController.new);
@@ -51,35 +45,41 @@ router.post('/quizes/create',                    sessionController.loginRequired
                                                  quizController.preload,
                                                  quizController.create);
 
+// Estadísticas — debe ir ANTES de /:quizId
+router.get('/quizes/statistics',                 statsController.show);
+
+// Mostrar pregunta y solicitar respuesta (público)
+router.get('/quizes/:quizId',                    quizController.show);
+
+// Validar respuesta y mostrar resultado (público)
+router.get('/quizes/:quizId/answer',             quizController.answer);
+
 // Editar pregunta (usuario autenticado)
-router.get('/quizes/:quizId(\\d+)/edit',         sessionController.loginRequired,
+router.get('/quizes/:quizId/edit',               sessionController.loginRequired,
                                                  quizController.preload,
                                                  quizController.edit);
 
-router.put('/quizes/:quizId(\\d+)',              sessionController.loginRequired,
+router.put('/quizes/:quizId',                    sessionController.loginRequired,
                                                  quizController.preload,
                                                  quizController.update);
 
 // Borrar pregunta (usuario autenticado)
-router.delete('/quizes/:quizId(\\d+)',           sessionController.loginRequired,
+router.delete('/quizes/:quizId',                 sessionController.loginRequired,
                                                  quizController.destroy);
 
 // Crear nuevo comentario (público)
-router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
-router.post('/quizes/:quizId(\\d+)/comments',    commentController.create);
+router.get('/quizes/:quizId/comments/new',       commentController.new);
+router.post('/quizes/:quizId/comments',          commentController.create);
 
 // Publicar comentario (usuario autenticado)
-router.put('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',
+router.put('/quizes/:quizId/comments/:commentId/publish',
                                                  sessionController.loginRequired,
                                                  commentController.publish);
 
 // Rechazar comentario (usuario autenticado)
-router.delete('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)',
+router.delete('/quizes/:quizId/comments/:commentId',
                                                  sessionController.loginRequired,
                                                  commentController.destroy);
-
-// Estadísticas (público)
-router.get('/quizes/statistics',                 statsController.show);
 
 // Exportar enrutador
 module.exports = router;
