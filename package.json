@@ -29,7 +29,7 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^6.37.8",
     "serve-favicon": "^2.5.1",
-    "undici": "^6.27.0"
+    "undici": "^6.28.0"
   },
   "allowScripts": {
     "sqlite3@6.0.1": true
